@@ -53,7 +53,7 @@ export async function createPost(prevState: State, formData: FormData) {
 
     await connectDb();
 
-    await new PostService().createPost({ imageUrl, name });
+    await new PostService().create({ imageUrl, name });
   } catch (error) {
     logger.error('createPostAction', { error });
     return {

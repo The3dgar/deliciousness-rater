@@ -6,13 +6,13 @@ interface Post {
 }
 
 export class PostService {
-  async createPost(post: Post) {
-    const newPost = await PostModel.create(post);
-    return newPost;
+  async create(data: Post) {
+    const newDoc = await PostModel.create(data);
+    return newDoc;
   }
 
-  async getPost() {
-    const posts = await PostModel.find().lean();
-    return posts;
+  async get() {
+    const docs = await PostModel.find().lean();
+    return docs;
   }
 }

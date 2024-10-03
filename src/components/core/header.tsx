@@ -27,7 +27,7 @@ export default function Header() {
               <LinkButton href='/contact' label='Contact' />
             </li>
           </ul>
-          <LoginButton href='/post' label='Ingresar' />
+          <LoginButton href='/auth/login' label='Ingresar' />
         </nav>
       </div>
     </header>
