@@ -20,10 +20,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useSearchParams } from 'next/navigation';
 
 export default function SignInForm() {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState('');
+
+  const searchParams = useSearchParams();
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -34,9 +37,10 @@ export default function SignInForm() {
   });
 
   async function onSubmit(values: z.infer<typeof signInSchema>) {
+    const redirect = searchParams.get('redirect') || '/';
     setError('');
     startTransition(async () => {
-      const response = await loginAction(values);
+      const response = await loginAction(values, redirect);
       if (response?.error) {
         setError(response.error);
       }

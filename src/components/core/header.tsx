@@ -20,11 +20,7 @@ export default async function Header() {
           href='#'>
           Explore
         </Link>
-        <Link
-          className='text-sm font-medium hover:underline underline-offset-4'
-          href='/post'>
-          Submit
-        </Link>
+
         <Link
           className='text-sm font-medium hover:underline underline-offset-4'
           href='#'>
@@ -32,7 +28,14 @@ export default async function Header() {
         </Link>
 
         {!!user ? (
-          <SignOut />
+          <>
+            <Link
+              className='text-sm font-medium hover:underline underline-offset-4'
+              href='/post'>
+              Post
+            </Link>
+            <SignOut />
+          </>
         ) : (
           <>
             <Button variant='outline' size='sm' className=''>
