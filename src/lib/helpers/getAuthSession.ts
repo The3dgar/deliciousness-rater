@@ -1,7 +1,14 @@
-// import { auth } from '@/auth';
-// import { User } from '../definitions';
+import { auth } from '../../../auth';
 
-// export const getAuthSession = async () => {
-//   const session = await auth();
-//   return session?.user as User
-// }
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  active: boolean;
+  alias: string;
+}
+
+export const getAuthSession = async () => {
+  const session = await auth();
+  return session?.user as User;
+};

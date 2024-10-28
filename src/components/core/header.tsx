@@ -1,35 +1,53 @@
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import { Donut } from 'lucide-react';
-import { LinkButton, LoginButton } from './buttons';
+import { ToggleTheme } from './buttons/toggleTheme';
+import { getAuthSession } from '@/lib/helpers/getAuthSession';
+import { SignOut } from './buttons/sign-out';
 
-export default function Header() {
+export default async function Header() {
+  const user = await getAuthSession();
+
   return (
-    <header className='bg-[#172439] text-white p-4'>
-      <div className='container mx-auto flex flex-col sm:flex-row justify-between items-center'>
-        <div className='flex items-center mb-4 sm:mb-0 hover:text-focus'>
-          <Donut size={48} className='mr-2' />
-          <Link href='/' className='text-2xl font-bold '>
-            D Rater
-          </Link>
-        </div>
-        <nav className='flex flex-col sm:flex-row items-center gap-4'>
-          <ul className='flex flex-wrap justify-center gap-2 sm:gap-4'>
-            <li>
-              <LinkButton href='/' label='Home' />
-            </li>
-            <li>
-              <LinkButton href='/about' label='About' />
-            </li>
-            <li>
-              <LinkButton href='/services' label='Services' />
-            </li>
-            <li>
-              <LinkButton href='/contact' label='Contact' />
-            </li>
-          </ul>
-          <LoginButton href='/auth/login' label='Ingresar' />
-        </nav>
-      </div>
+    <header className='px-4 lg:px-6 h-14 flex items-center'>
+      <Link className='flex items-center justify-center' href='/'>
+        <Donut className='h-6 w-6 mr-2' />
+        <span className='font-bold'>Deliciousness Rater</span>
+      </Link>
+      <nav className='ml-auto flex items-center gap-4 sm:gap-6'>
+        <Link
+          className='text-sm font-medium hover:underline underline-offset-4'
+          href='#'>
+          Explore
+        </Link>
+        <Link
+          className='text-sm font-medium hover:underline underline-offset-4'
+          href='/post'>
+          Submit
+        </Link>
+        <Link
+          className='text-sm font-medium hover:underline underline-offset-4'
+          href='#'>
+          About
+        </Link>
+
+        {!!user ? (
+          <SignOut />
+        ) : (
+          <>
+            <Button variant='outline' size='sm' className=''>
+              <Link className='text-sm font-medium' href='/sign-up'>
+                Sign Up
+              </Link>
+            </Button>
+
+            <Link className='text-sm font-medium' href='/sign-in'>
+              Sign In
+            </Link>
+          </>
+        )}
+        <ToggleTheme />
+      </nav>
     </header>
   );
 }

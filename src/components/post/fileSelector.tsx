@@ -2,6 +2,9 @@
 import { useState, ChangeEvent } from 'react';
 import { X } from 'lucide-react';
 
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 interface ImagePreview {
   file: File;
   preview: string;
@@ -31,20 +34,20 @@ export const FileSelector = () => {
   return (
     <div className='text-black'>
       <div>
-        <label
+        <Label
           htmlFor='image'
           className='block text-sm font-medium text-gray-300'>
-          Subir imagenes
-        </label>
+          Upload Images
+        </Label>
         <div className='mt-1 flex items-center'>
-          <input
+          <Input
             id='image'
             name='image'
             type='file'
             accept='image/*'
             multiple
             onChange={handleImageChange}
-            className='sr-only'
+            className='sr-only hidden'
             required
           />
           <label
@@ -64,13 +67,13 @@ export const FileSelector = () => {
                 alt={`Preview ${index + 1}`}
                 className='w-full h-32 object-cover rounded-md'
               />
-              <button
+              <Button
                 type='button'
                 onClick={() => handleRemoveImage(index)}
                 className='absolute top-1 right-1 bg-gray-800 rounded-full p-1 shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-gray-800'
                 aria-label={`Remove image ${index + 1}`}>
                 <X className='w-4 h-4 text-gray-300' />
-              </button>
+              </Button>
             </div>
           ))}
         </div>
@@ -90,7 +93,9 @@ export const FileSelector = () => {
                 strokeLinejoin='round'
               />
             </svg>
-            <p className='text-xs text-gray-500'>No has seleccionado archivos</p>
+            <p className='text-xs text-gray-500'>
+              No has seleccionado archivos
+            </p>
           </div>
         </div>
       )}

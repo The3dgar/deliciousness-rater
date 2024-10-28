@@ -1,34 +1,36 @@
-import mongoose from 'mongoose';
+import { models, model, Schema, Document } from 'mongoose';
 
-interface Post extends mongoose.Document {
+interface Post extends Document {
   name: string;
   imageUrl: string;
   active: boolean;
 }
 
-const schema = new mongoose.Schema<Post>({
-  name: {
-    type: String,
-    required: true,
+const schema = new Schema<Post>(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    imageUrl: {
+      type: String,
+      required: true,
+    },
+    active: {
+      type: Boolean,
+      default: true,
+    },
   },
-  imageUrl: {
-    type: String,
-    required: true,
-  },
-  active: {
-    type: Boolean,
-    default: true,
-  },
-  
-});
+  { timestamps: true }
+);
 
 schema.method('toJSON', function () {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { _id, __v, ...object } = this.toObject();
   object.id = _id;
-  return object;
+  return object as Post;
 });
 
-const PostModels = mongoose.models.Post || mongoose.model<Post>('Post', schema);
+const PostModels = models.Post || model<Post>('Post', schema);
 
 export default PostModels;

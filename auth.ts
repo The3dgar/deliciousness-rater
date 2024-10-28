@@ -1,41 +1,40 @@
 import NextAuth from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
-import { z } from 'zod';
-import bcrypt from 'bcrypt';
+import credentials from 'next-auth/providers/credentials';
 
 import { authConfig } from './auth.config';
+
+import { comparePassword } from '@/lib/helpers/password.helpers';
 import { UserService } from '@/lib/services/user';
-import connectDb from '@/lib/db';
+import { signInSchema } from '@/lib/zod';
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  session: {
+    strategy: 'jwt', // this is the default value
+  },
   providers: [
-    Credentials({
-      credentials: {
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' },
-      },
-      async authorize(credentials) {
-        const parsedCredentials = z
-          .object({
-            email: z.string().email(),
-            password: z.string().min(6),
-          })
-          .safeParse(credentials);
+    credentials({
+      authorize: async (
+        credentials: Partial<{ email: string; password: string }>
+      ) => {
+        const { email, password } = await signInSchema.parseAsync(credentials);
 
-        if (parsedCredentials.success) {
-          await connectDb();
-          const { email, password } = parsedCredentials.data;
-          const user = await new UserService().getByEmail(email);
-          console.log({ user });
+        const user = await new UserService().getByEmail(email);
 
-          if (!user) return null;
-
-          const passwordsMatch = await bcrypt.compare(password, user.password);
-          if (passwordsMatch) return user;
+        if (!user) {
+          throw new Error('Invalid credentials.');
         }
 
-        return null;
+        if (!user.active) {
+          throw new Error('User is not active.');
+        }
+
+        const passwordsMatch = await comparePassword(password, user.password);
+        if (!passwordsMatch) {
+          throw new Error('Invalid credentials.');
+        }
+
+        return user;
       },
     }),
   ],

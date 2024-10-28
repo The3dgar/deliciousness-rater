@@ -7,24 +7,29 @@ interface User extends mongoose.Document {
   active: boolean;
 }
 
-const schema = new mongoose.Schema<User>({
-  email: {
-    type: String,
-    required: true,
+const schema = new mongoose.Schema<User>(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    alias: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    active: {
+      type: Boolean,
+      default: true,
+    },
   },
-  alias: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  active: {
-    type: Boolean,
-    default: true,
-  },
-});
+  { timestamps: true }
+);
 
 schema.method('toJSON', function () {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
