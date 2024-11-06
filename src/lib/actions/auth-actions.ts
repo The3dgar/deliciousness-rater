@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-import { signInSchema } from '../zod';
+import { signInSchema } from '../zod/auth';
 import { signIn } from '../../../auth';
 import logger from '../helpers/logs';
 

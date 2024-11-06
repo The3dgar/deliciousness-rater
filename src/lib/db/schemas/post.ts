@@ -3,6 +3,8 @@ import { models, model, Schema, Document } from 'mongoose';
 interface Post extends Document {
   name: string;
   imageUrl: string;
+  description: string;
+  country: string;
   active: boolean;
 }
 
@@ -13,6 +15,11 @@ const schema = new Schema<Post>(
       required: true,
     },
     imageUrl: {
+      type: String,
+      required: true,
+    },
+    description: { type: String, required: true },
+    country: {
       type: String,
       required: true,
     },

@@ -5,15 +5,19 @@ import { Post } from '../interfaces/post';
 interface PostCreateData {
   imageUrl: string;
   name: string;
+  description: string;
+  country: string;
 }
 
 export class PostService {
   async create(data: PostCreateData) {
+    await connectDb();
     const newDoc = await PostModel.create(data);
     return newDoc;
   }
 
   async get() {
+    await connectDb();
     const docs = await PostModel.find().lean();
     return docs;
   }
