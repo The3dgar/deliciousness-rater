@@ -19,8 +19,9 @@ export default async function HomePage() {
                   Welcome to Deliciousness Rater
                 </h1>
                 <p className='mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400'>
-                  Discover and share unique food combinations. From Oreo sushi
-                  to hot dog ice cream, let your culinary creativity shine!
+                  Discover and share product variations from around the world.
+                  From Chilean Oreos to Japanese KitKats, explore how flavors
+                  change across borders!
                 </p>
               </div>
               <div className='w-full max-w-sm space-y-2'>
