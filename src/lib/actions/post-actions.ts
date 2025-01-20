@@ -14,11 +14,38 @@ export const createPostAction = async (
   formData: FormData
 ) => {
   try {
-    const image = formData.get('image') as File;
-    if (!image || !image.size) {
-      logger.error('createPostAction', { error: 'No image selected', name });
-      throw 'Problem with the image';
-    }
+    const image = formData.getAll('image') as File[];
+
+    // validate if the image are valid
+    image.forEach((img, index) => {
+      if (index == 3) {
+        throw 'You can only upload 3 images';
+      }
+
+      if (!img.size) {
+        logger.error('createPostAction', {
+          error: 'No image selected',
+          name: img.name,
+        });
+        throw `Problem with the image name: ${img.name}`;
+      }
+
+      // validate the image size is less than 2MB
+      if (img.size > 5 * 1024 * 1024) {
+        logger.error('createPostAction', {
+          error: 'Image size is too big',
+          name: img.name,
+        });
+        throw `The image ${img.name} is too big`;
+      }
+    });
+
+    
+
+    image.forEach((img) => {
+      
+    });
+    
 
     const imageUrl = await fileUploadService(image);
     await new PostService().create({ imageUrl, country, description, name });

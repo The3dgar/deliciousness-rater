@@ -1,5 +1,6 @@
-import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+
 import { Button } from '../ui/button';
 import { Heart } from 'lucide-react';
 import { Post } from '@/lib/interfaces/post';
@@ -8,7 +9,7 @@ interface Props {
   post: Post;
 }
 
-export const PostImage = ({ post: { imageUrl, name } }: Props) => {
+export const PostImage = ({ post: { imageUrl, name, _id } }: Props) => {
   return (
     <div className='relative group'>
       <Image
@@ -23,7 +24,10 @@ export const PostImage = ({ post: { imageUrl, name } }: Props) => {
         width='360'
       />
       <div className='absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black bg-opacity-50 rounded-lg'>
-        <p className='text-white font-semibold'>{name}</p>
+        <Link className='text-white font-semibold' href={`/${_id}`}>
+          {name}
+        </Link>
+        {/* <p className='text-white font-semibold'>{name}</p> */}
       </div>
       <Button
         className='absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity'
